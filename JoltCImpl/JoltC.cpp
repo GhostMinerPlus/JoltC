@@ -147,6 +147,8 @@ LAYOUT_COMPATIBLE(JPC_CollideShapeSettings, JPH::CollideShapeSettings)
 
 LAYOUT_COMPATIBLE(JPC_BodyID, JPH::BodyID)
 
+LAYOUT_COMPATIBLE(JPC_MassProperties, JPH::MassProperties)
+
 static auto to_jpc(JPH::BroadPhaseLayer in) { return in.GetValue(); }
 static auto to_jph(JPC_BroadPhaseLayer in) { return JPH::BroadPhaseLayer(in); }
 
@@ -1659,6 +1661,10 @@ JPC_API JPC_Vec3 JPC_Shape_GetCenterOfMass(const JPC_Shape* self) {
 
 JPC_API float JPC_Shape_GetVolume(const JPC_Shape* self) {
 	return to_jph(self)->GetVolume();
+}
+
+JPC_API JPC_MassProperties JPC_Shape_GetMassProperties(const JPC_Shape* self) {
+	return to_jpc(to_jph(self)->GetMassProperties());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

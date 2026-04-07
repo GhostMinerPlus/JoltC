@@ -217,6 +217,16 @@ JPC_API JPC_IndexedTriangleList* JPC_IndexedTriangleList_new(const JPC_IndexedTr
 JPC_API void JPC_IndexedTriangleList_delete(JPC_IndexedTriangleList* object);
 
 ////////////////////////////////////////////////////////////////////////////////
+// MassProperties
+
+typedef struct JPC_MassProperties {
+	float Mass;
+	JPC_Mat44 Inertia;
+} JPC_MassProperties;
+
+ENSURE_SIZE_ALIGN(JPC_MassProperties, JPH::MassProperties)
+
+////////////////////////////////////////////////////////////////////////////////
 // Shape -> RefTarget<Shape>
 
 typedef struct JPC_Shape JPC_Shape;
@@ -235,6 +245,8 @@ JPC_API uint64_t JPC_Shape_GetSubShapeUserData(const JPC_Shape* self, JPC_SubSha
 
 JPC_API JPC_Vec3 JPC_Shape_GetCenterOfMass(const JPC_Shape* self);
 JPC_API float JPC_Shape_GetVolume(const JPC_Shape* self);
+
+JPC_API JPC_MassProperties JPC_Shape_GetMassProperties(const JPC_Shape* self);
 
 ////////////////////////////////////////////////////////////////////////////////
 // CompoundShape -> Shape -> RefTarget<Shape>
