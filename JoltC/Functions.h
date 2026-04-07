@@ -241,8 +241,14 @@ JPC_API float JPC_Shape_GetVolume(const JPC_Shape* self);
 
 typedef struct JPC_CompoundShape JPC_CompoundShape;
 
+typedef struct JPC_CompoundShape_SubShape JPC_CompoundShape_SubShape;
+
 // FIXME: The real API should return a new type, JPC_CompoundShape_SubShape*
 JPC_API const JPC_Shape* JPC_CompoundShape_GetSubShape_Shape(
+	const JPC_CompoundShape* self,
+	uint inIdx);
+
+JPC_API const JPC_CompoundShape_SubShape* JPC_CompoundShape_GetSubShape(
 	const JPC_CompoundShape* self,
 	uint inIdx);
 

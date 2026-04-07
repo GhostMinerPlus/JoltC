@@ -128,6 +128,7 @@ DESTRUCTOR(JPC_JobSystemSingleThreaded)
 
 OPAQUE_WRAPPER(JPC_Shape, JPH::Shape)
 OPAQUE_WRAPPER(JPC_CompoundShape, JPH::CompoundShape)
+OPAQUE_WRAPPER(JPC_CompoundShape_SubShape, JPH::CompoundShape::SubShape)
 OPAQUE_WRAPPER(JPC_Body, JPH::Body)
 
 OPAQUE_WRAPPER(JPC_VertexList, JPH::VertexList)
@@ -1668,6 +1669,13 @@ JPC_API const JPC_Shape* JPC_CompoundShape_GetSubShape_Shape(
 	uint inIdx)
 {
 	return to_jpc(to_jph(self)->GetSubShape(inIdx).mShape.GetPtr());
+}
+
+JPC_API const JPC_CompoundShape_SubShape* JPC_CompoundShape_GetSubShape(
+	const JPC_CompoundShape* self,
+	uint inIdx)
+{
+	return to_jpc(&to_jph(self)->GetSubShape(inIdx));
 }
 
 JPC_API uint32_t JPC_CompoundShape_GetSubShapeIndexFromID(
