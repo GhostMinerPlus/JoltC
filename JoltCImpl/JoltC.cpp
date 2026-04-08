@@ -2115,9 +2115,11 @@ JPC_API void JPC_MutableCompoundShape_AdjustCenterOfMass(JPC_MutableCompoundShap
 }
 
 JPC_API JPC_MutableCompoundShape* JPC_MutableCompoundShape_Clone(JPC_MutableCompoundShape* self) {
-	JPH::MutableCompoundShape* self_jph = to_jph(self);
+	auto shape = to_jph(self)->Clone();
 
-	return to_jpc(self_jph->Clone().GetPtr());
+	shape->AddRef();
+
+	return to_jpc(shape.GetPtr());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
