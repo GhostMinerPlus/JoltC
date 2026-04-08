@@ -142,6 +142,8 @@ DESTRUCTOR(JPC_String)
 
 LAYOUT_COMPATIBLE(JPC_BodyManager_DrawSettings, JPH::BodyManager::DrawSettings)
 
+// FIXME: It does't work!
+// LAYOUT_COMPATIBLE(JPC_RayCastSettings, JPH::RayCastSettings)
 LAYOUT_COMPATIBLE(JPC_ShapeCastSettings, JPH::ShapeCastSettings)
 LAYOUT_COMPATIBLE(JPC_CollideShapeSettings, JPH::CollideShapeSettings)
 
@@ -267,6 +269,17 @@ static JPC_RayCastResult to_jpc(JPH::RayCastResult in) {
 	out.BodyID = to_jpc(in.mBodyID);
 	out.Fraction = in.mFraction;
 	out.SubShapeID2 = to_jpc(in.mSubShapeID2);
+
+	return out;
+}
+
+static JPH::RayCastSettings to_jph(JPC_RayCastSettings in) {
+	JPH::RayCastSettings out{};
+
+	// JPH::RayCastSettings
+	out.mBackFaceModeTriangles = static_cast<JPH::EBackFaceMode>(in.BackFaceModeTriangles);
+	out.mBackFaceModeConvex = static_cast<JPH::EBackFaceMode>(in.BackFaceModeConvex);
+	out.mTreatConvexAsSolid = in.TreatConvexAsSolid;
 
 	return out;
 }
@@ -785,6 +798,51 @@ JPC_API void JPC_EstimateCollisionResponse(
 		inCombinedRestitution,
 		inMinVelocityForRestitution,
 		inNumIterations);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// JPC_CastRayCollector
+
+class JPC_CastRayCollectorBridge;
+OPAQUE_WRAPPER(JPC_CastRayCollector, JPC_CastRayCollectorBridge)
+
+class JPC_CastRayCollectorBridge final : public JPH::CastRayCollector {
+	using ResultType = JPH::RayCastResult;
+
+public:
+	explicit JPC_CastRayCollectorBridge(void *self, JPC_CastRayCollectorFns fns) : self(self), fns(fns) {}
+
+	void Reset() override {
+		JPH::CastRayCollector::Reset();
+
+		if (fns.Reset != nullptr) {
+			fns.Reset(self);
+		}
+	}
+
+	void AddHit(const ResultType &inResult) override {
+		JPC_RayCastResult result = to_jpc(inResult);
+		JPC_CastRayCollector *base = to_jpc(this);
+
+		fns.AddHit(self, base, &result);
+	}
+
+private:
+	void* self;
+	JPC_CastRayCollectorFns fns;
+};
+
+DESTRUCTOR(JPC_CastRayCollector)
+
+JPC_API JPC_CastRayCollector* JPC_CastRayCollector_new(
+	void *self,
+	JPC_CastRayCollectorFns fns)
+{
+	return to_jpc(new JPC_CastRayCollectorBridge(self, fns));
+}
+
+JPC_API void JPC_CastRayCollector_UpdateEarlyOutFraction(JPC_CastRayCollector* self, float inFraction) {
+	to_jph(self)->UpdateEarlyOutFraction(inFraction);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2893,6 +2951,51 @@ JPC_API bool JPC_NarrowPhaseQuery_CastRay(const JPC_NarrowPhaseQuery* self, JPC_
 	}
 
 	return hit;
+}
+
+JPC_API void JPC_NarrowPhaseQuery_CastRay1(const JPC_NarrowPhaseQuery* self, JPC_NarrowPhaseQuery_CastRayArgs1* args) {
+	JPH::RayCastSettings settings = to_jph(args->Settings);
+
+	JPH::RayCastResult result;
+
+	JPH::ClosestHitCollisionCollector<JPH::CastRayCollector> defaultCollector{};
+	JPH::CastRayCollector* collector = &defaultCollector;
+	if (args->Collector != nullptr) {
+		collector = to_jph(args->Collector);
+	}
+
+	JPH::BroadPhaseLayerFilter defaultBplFilter{};
+	const JPH::BroadPhaseLayerFilter* bplFilter = &defaultBplFilter;
+	if (args->BroadPhaseLayerFilter != nullptr) {
+		bplFilter = to_jph(args->BroadPhaseLayerFilter);
+	}
+
+	JPH::ObjectLayerFilter defaultOlFilter{};
+	const JPH::ObjectLayerFilter* olFilter = &defaultOlFilter;
+	if (args->ObjectLayerFilter != nullptr) {
+		olFilter = to_jph(args->ObjectLayerFilter);
+	}
+
+	JPH::BodyFilter defaultBodyFilter{};
+	const JPH::BodyFilter* bodyFilter = &defaultBodyFilter;
+	if (args->BodyFilter != nullptr) {
+		bodyFilter = to_jph(args->BodyFilter);
+	}
+
+	JPH::ShapeFilter defaultShapeFilter{};
+	const JPH::ShapeFilter* shapeFilter = &defaultShapeFilter;
+	if (args->ShapeFilter != nullptr) {
+		shapeFilter = to_jph(args->ShapeFilter);
+	}
+
+	to_jph(self)->CastRay(
+		to_jph(args->Ray),
+		settings,
+		*collector,
+		*bplFilter,
+		*olFilter,
+		*bodyFilter,
+		*shapeFilter);
 }
 
 JPC_API void JPC_ShapeCastSettings_default(JPC_ShapeCastSettings* object) {

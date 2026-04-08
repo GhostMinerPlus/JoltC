@@ -515,6 +515,19 @@ ENSURE_SIZE_ALIGN(JPC_SubShapeIDPair, JPH::SubShapeIDPair)
 // ENSURE_NORMAL_FIELD(  SubShapeIDPair, Body2ID)
 // ENSURE_NORMAL_FIELD(  SubShapeIDPair, SubShapeID2)
 
+typedef struct JPC_RayCastSettings {
+	// JPH::RayCastSettings
+	JPC_BackFaceMode BackFaceModeTriangles;
+	JPC_BackFaceMode BackFaceModeConvex;
+	bool TreatConvexAsSolid;
+} JPC_RayCastSettings;
+
+// FIXME: It does't work!
+// ENSURE_SIZE_ALIGN(JPC_RayCastSettings, JPH::RayCastSettings)
+// ENSURE_NORMAL_FIELD(  RayCastSettings, BackFaceModeTriangles)
+// ENSURE_NORMAL_FIELD(  RayCastSettings, BackFaceModeConvex)
+// ENSURE_NORMAL_FIELD(  RayCastSettings, TreatConvexAsSolid)
+
 typedef struct JPC_ShapeCastSettings {
 	// JPH::CollideSettingsBase
 	JPC_ActiveEdgeMode ActiveEdgeMode;
@@ -631,6 +644,24 @@ JPC_API void JPC_EstimateCollisionResponse(
 	float inMinVelocityForRestitution,	///< = 1.0f
 	uint inNumIterations				///< = 10
 );
+
+////////////////////////////////////////////////////////////////////////////////
+// CastRayCollector
+
+typedef struct JPC_CastRayCollector JPC_CastRayCollector;
+
+typedef struct JPC_CastRayCollectorFns {
+	void (*Reset)(void *self);
+	void (*AddHit)(void *self, JPC_CastRayCollector *base, const JPC_RayCastResult *Result);
+} JPC_CastRayCollectorFns;
+
+JPC_API JPC_CastRayCollector* JPC_CastRayCollector_new(
+	void *self,
+	JPC_CastRayCollectorFns fns);
+
+JPC_API void JPC_CastRayCollector_delete(JPC_CastRayCollector* object);
+
+JPC_API void JPC_CastRayCollector_UpdateEarlyOutFraction(JPC_CastRayCollector *self, float inFraction);
 
 ////////////////////////////////////////////////////////////////////////////////
 // CastShapeCollector
@@ -1571,7 +1602,19 @@ typedef struct JPC_NarrowPhaseQuery_CastRayArgs {
 	const JPC_ShapeFilter *ShapeFilter;
 } JPC_NarrowPhaseQuery_CastRayArgs;
 
+typedef struct JPC_NarrowPhaseQuery_CastRayArgs1 {
+	JPC_RRayCast Ray;
+	JPC_RayCastSettings Settings;
+	JPC_CastRayCollector* Collector;
+	const JPC_BroadPhaseLayerFilter *BroadPhaseLayerFilter;
+	const JPC_ObjectLayerFilter *ObjectLayerFilter;
+	const JPC_BodyFilter *BodyFilter;
+	const JPC_ShapeFilter *ShapeFilter;
+} JPC_NarrowPhaseQuery_CastRayArgs1;
+
 JPC_API bool JPC_NarrowPhaseQuery_CastRay(const JPC_NarrowPhaseQuery* self, JPC_NarrowPhaseQuery_CastRayArgs* args);
+
+JPC_API void JPC_NarrowPhaseQuery_CastRay1(const JPC_NarrowPhaseQuery* self, JPC_NarrowPhaseQuery_CastRayArgs1* args);
 
 typedef struct JPC_RShapeCast {
 	const JPC_Shape *Shape;
