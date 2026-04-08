@@ -3199,3 +3199,13 @@ JPC_API void JPC_PhysicsSystem_SetContactListener(
 {
 	to_jph(self)->SetContactListener(to_jph(inContactListener));
 }
+
+JPC_API void JPC_PhysicsSystem_SetGravity(JPC_PhysicsSystem* self, JPC_Vec3 gravity)
+{
+	to_jph(self)->SetGravity(to_jph(gravity));
+}
+
+JPC_API JPC_Vec3 JPC_PhysicsSystem_GetGravity(JPC_PhysicsSystem* self)
+{
+	return to_jpc(to_jph(self)->GetGravity());
+}
