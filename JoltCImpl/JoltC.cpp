@@ -130,6 +130,7 @@ OPAQUE_WRAPPER(JPC_Shape, JPH::Shape)
 OPAQUE_WRAPPER(JPC_CompoundShape, JPH::CompoundShape)
 OPAQUE_WRAPPER(JPC_CompoundShape_SubShape, JPH::CompoundShape::SubShape)
 OPAQUE_WRAPPER(JPC_Body, JPH::Body)
+OPAQUE_WRAPPER(JPC_MutableCompoundShape, JPH::MutableCompoundShape)
 
 OPAQUE_WRAPPER(JPC_VertexList, JPH::VertexList)
 DESTRUCTOR(JPC_VertexList)
@@ -2111,6 +2112,12 @@ JPC_API void JPC_MutableCompoundShape_AdjustCenterOfMass(JPC_MutableCompoundShap
 	JPH::MutableCompoundShape* self_jph = JPC_MutableCompoundShape_to_jph(self);
 
 	self_jph->AdjustCenterOfMass();
+}
+
+JPC_API JPC_MutableCompoundShape* JPC_MutableCompoundShape_Clone(JPC_MutableCompoundShape* self) {
+	JPH::MutableCompoundShape* self_jph = to_jph(self);
+
+	return to_jpc(self_jph->Clone().GetPtr());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

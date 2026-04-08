@@ -1279,7 +1279,7 @@ JPC_API void JPC_MutableCompoundShape_AdjustCenterOfMass(JPC_MutableCompoundShap
 
 // TODO:
 // JPC_API void JPC_MutableCompoundShape_ModifyShapes(JPC_MutableCompoundShape* self, ...);
-// JPC_API JPC_MutableCompoundShape* JPC_MutableCompoundShape_Clone(JPC_MutableCompoundShape* self);
+JPC_API JPC_MutableCompoundShape* JPC_MutableCompoundShape_Clone(JPC_MutableCompoundShape* self);
 
 ////////////////////////////////////////////////////////////////////////////////
 // MutableCompoundShapeSettings -> CompoundShapeSettings -> ShapeSettings
