@@ -82,7 +82,7 @@ LAYOUT_COMPATIBLE(JPC_MassProperties, JPH::MassProperties)
 class MassShape : public JPH::Shape
 {
 public:
-    explicit MassShape(JPH::Shape *inShape, JPH::MassProperties inMass) : JPH::Shape(inShape->GetType(), inShape->GetSubType()), mShape(inShape), mMass(inMass)
+    explicit MassShape(JPH::Shape *inShape, JPH::Vec3 inCenterOfMass, JPH::MassProperties inMass) : JPH::Shape(inShape->GetType(), inShape->GetSubType()), mCenterOfMass(inCenterOfMass), mMass(inMass), mShape(inShape)
     {
         SetUserData(inShape->GetUserData());
     }
@@ -196,7 +196,7 @@ public:
 
     virtual JPH::Vec3 GetCenterOfMass() const override
     {
-        return mShape->GetCenterOfMass();
+        return mCenterOfMass;
     }
 
     virtual JPH::AABox GetWorldSpaceBounds(JPH::Mat44Arg inCenterOfMassTransform, JPH::Vec3Arg inScale) const override
@@ -276,33 +276,27 @@ public:
         return mShape->GetStatsRecursive(ioVisitedShapes);
     }
 
-    void SetMassProperties(JPH::MassProperties inMass)
+    JPH::Shape *GetShape() const
     {
-        mMass = inMass;
+        return mShape.GetPtr();
     }
 
 private:
+    JPH::Vec3 mCenterOfMass;
     JPH::MassProperties mMass;
     JPH::Ref<JPH::Shape> mShape;
 };
 
-JPC_API void JPC_MassShape_delete(JPC_MassShape *inShape)
+JPC_API JPC_MassShape *JPC_MassShape_new(JPC_Shape *inShape, JPC_Vec3 inCenterOfMass, JPC_MassProperties inMass)
 {
-    auto shape = (MassShape *)inShape;
-
-    delete shape;
-}
-
-JPC_API JPC_MassShape *JPC_MassShape_new(JPC_Shape *inShape, JPC_MassProperties inMass)
-{
-    auto shape = new MassShape((JPH::Shape *)inShape, to_jph(inMass));
+    auto shape = new MassShape((JPH::Shape *)inShape, JPH::Vec3(inCenterOfMass.x, inCenterOfMass.y, inCenterOfMass.z), to_jph(inMass));
 
     return (JPC_MassShape *)shape;
 }
 
-JPC_API void JPC_MassShape_SetMassProperties(JPC_MassShape *inShape, JPC_MassProperties inMass)
+JPC_API JPC_Shape *JPC_MassShape_GetShape(JPC_MassShape *inShape)
 {
     auto shape = (MassShape *)inShape;
 
-    shape->SetMassProperties(to_jph(inMass));
+    return (JPC_Shape *)shape->GetShape();
 }

@@ -18,11 +18,9 @@ extern "C"
 
 typedef struct JPC_MassShape JPC_MassShape;
 
-JPC_API JPC_MassShape *JPC_MassShape_new(JPC_Shape *inShape, JPC_MassProperties inMass);
+JPC_API JPC_MassShape *JPC_MassShape_new(JPC_Shape *inShape, JPC_Vec3 inCenterOfMass, JPC_MassProperties inMass);
 
-JPC_API void JPC_MassShape_delete(JPC_MassShape *inShape);
-
-JPC_API void JPC_MassShape_SetMassProperties(JPC_MassShape *inShape, JPC_MassProperties inMass);
+JPC_API JPC_Shape *JPC_MassShape_GetShape(JPC_MassShape *inShape);
 
 #ifdef __cplusplus
 }
