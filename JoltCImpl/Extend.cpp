@@ -79,12 +79,12 @@
 
 LAYOUT_COMPATIBLE(JPC_MassProperties, JPH::MassProperties)
 
-class MassShape : public JPH::Shape
+class ExtendShape : public JPH::Shape
 {
 public:
-    explicit MassShape(JPH::Shape *inShape, JPH::Vec3 inCenterOfMass, JPH::MassProperties inMass) : JPH::Shape(inShape->GetType(), inShape->GetSubType()), mCenterOfMass(inCenterOfMass), mMass(inMass), mShape(inShape)
+    explicit ExtendShape(JPH::Shape *inShape, JPH::uint64 inUserData, JPH::Vec3 inCenterOfMass, JPH::MassProperties inMass) : JPH::Shape(inShape->GetType(), inShape->GetSubType()), mCenterOfMass(inCenterOfMass), mMass(inMass), mShape(inShape)
     {
-        SetUserData(inShape->GetUserData());
+        SetUserData(inUserData);
     }
 
     virtual JPH::AABox GetLocalBounds() const override
@@ -287,16 +287,16 @@ private:
     JPH::Ref<JPH::Shape> mShape;
 };
 
-JPC_API JPC_MassShape *JPC_MassShape_new(JPC_Shape *inShape, JPC_Vec3 inCenterOfMass, JPC_MassProperties inMass)
+JPC_API JPC_ExtendShape *JPC_ExtendShape_new(JPC_Shape *inShape, uint64_t inUserData, JPC_Vec3 inCenterOfMass, JPC_MassProperties inMass)
 {
-    auto shape = new MassShape((JPH::Shape *)inShape, JPH::Vec3(inCenterOfMass.x, inCenterOfMass.y, inCenterOfMass.z), to_jph(inMass));
+    auto shape = new ExtendShape((JPH::Shape *)inShape, inUserData, JPH::Vec3(inCenterOfMass.x, inCenterOfMass.y, inCenterOfMass.z), to_jph(inMass));
 
-    return (JPC_MassShape *)shape;
+    return (JPC_ExtendShape *)shape;
 }
 
-JPC_API JPC_Shape *JPC_MassShape_GetShape(JPC_MassShape *inShape)
+JPC_API JPC_Shape *JPC_ExtendShape_GetShape(JPC_ExtendShape *inShape)
 {
-    auto shape = (MassShape *)inShape;
+    auto shape = (ExtendShape *)inShape;
 
     return (JPC_Shape *)shape->GetShape();
 }
