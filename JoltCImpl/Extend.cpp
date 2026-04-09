@@ -276,6 +276,11 @@ public:
         return mShape->GetStatsRecursive(ioVisitedShapes);
     }
 
+    void SetMassProperties(JPH::MassProperties inMass)
+    {
+        mMass = inMass;
+    }
+
 private:
     JPH::MassProperties mMass;
     JPH::Ref<JPH::Shape> mShape;
@@ -293,4 +298,11 @@ JPC_API JPC_MassShape *JPC_MassShape_new(JPC_Shape *inShape, JPC_MassProperties 
     auto shape = new MassShape((JPH::Shape *)inShape, to_jph(inMass));
 
     return (JPC_MassShape *)shape;
+}
+
+JPC_API void JPC_MassShape_SetMassProperties(JPC_MassShape *inShape, JPC_MassProperties inMass)
+{
+    auto shape = (MassShape *)inShape;
+
+    shape->SetMassProperties(to_jph(inMass));
 }
