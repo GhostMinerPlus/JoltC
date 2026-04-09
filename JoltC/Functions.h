@@ -225,6 +225,8 @@ typedef struct JPC_MassProperties {
 } JPC_MassProperties;
 
 ENSURE_SIZE_ALIGN(JPC_MassProperties, JPH::MassProperties)
+ENSURE_NORMAL_FIELD(  MassProperties, Mass)
+ENSURE_NORMAL_FIELD(  MassProperties, Inertia)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Shape -> RefTarget<Shape>
