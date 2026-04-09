@@ -14,6 +14,7 @@
 #include <Jolt/Physics/Collision/ContactListener.h>
 #include <Jolt/Physics/Collision/EstimateCollisionResponse.h>
 #include <Jolt/Physics/Collision/RayCast.h>
+#include <Jolt/Physics/Collision/Shape/EmptyShape.h>
 #include <Jolt/Physics/Collision/Shape/BoxShape.h>
 #include <Jolt/Physics/Collision/Shape/CapsuleShape.h>
 #include <Jolt/Physics/Collision/Shape/CompoundShape.h>
@@ -1773,6 +1774,18 @@ static bool HandleShapeResult(JPH::ShapeSettings::ShapeResult res, JPC_Shape** o
 
 		return true;
 	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// EmptyShapeSettings
+
+JPC_API bool JPC_EmptyShapeSettings_Create(const JPC_EmptyShapeSettings* self, JPC_Shape** outShape, JPC_String** outError) {
+	JPH::EmptyShapeSettings settings;
+
+	settings.mUserData = self->UserData;
+	settings.mCenterOfMass = to_jph(self->CenterOfMass);
+
+	return HandleShapeResult(settings.Create(), outShape, outError);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

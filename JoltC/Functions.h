@@ -1091,6 +1091,17 @@ JPC_API JPC_SliderConstraint* JPC_SliderConstraintSettings_Create(
 	JPC_Body* inBody2);
 
 ////////////////////////////////////////////////////////////////////////////////
+// EmptyShapeSettings
+typedef struct JPC_EmptyShapeSettings {
+	// ShapeSettings
+	uint64_t UserData;
+
+	JPC_Vec3 CenterOfMass;
+} JPC_EmptyShapeSettings;
+
+JPC_API bool JPC_EmptyShapeSettings_Create(const JPC_EmptyShapeSettings* self, JPC_Shape** outShape, JPC_String** outError);
+
+////////////////////////////////////////////////////////////////////////////////
 // TriangleShapeSettings
 
 typedef struct JPC_TriangleShapeSettings {
