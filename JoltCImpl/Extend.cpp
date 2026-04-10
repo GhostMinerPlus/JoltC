@@ -82,7 +82,7 @@ LAYOUT_COMPATIBLE(JPC_MassProperties, JPH::MassProperties)
 class ExtendShape : public JPH::Shape
 {
 public:
-    explicit ExtendShape(JPH::Shape *inShape, JPH::uint64 inUserData, JPH::Vec3 inCenterOfMass, JPH::MassProperties inMass) : JPH::Shape(inShape->GetType(), inShape->GetSubType()), mCenterOfMass(inCenterOfMass), mMass(inMass), mShape(inShape)
+    explicit ExtendShape(JPH::Shape *inShape, JPH::uint64 inUserData, JPH::Vec3 inCenterOfMass, JPH::MassProperties inMass) : JPH::Shape(JPH::EShapeType::User1, JPH::EShapeSubType::User1), mCenterOfMass(inCenterOfMass), mMass(inMass), mShape(inShape)
     {
         SetUserData(inUserData);
     }
