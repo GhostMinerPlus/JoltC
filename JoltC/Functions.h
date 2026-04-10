@@ -269,6 +269,10 @@ JPC_API uint32_t JPC_CompoundShape_GetSubShapeIndexFromID(
 	JPC_SubShapeID inSubShapeID,
 	JPC_SubShapeID* outRemainder);
 
+JPC_API uint32_t JPC_CompoundShape_GetCompoundUserData(const JPC_CompoundShape* self, uint inIdx);
+
+JPC_API void JPC_CompoundShape_SetCompoundUserData(JPC_CompoundShape* self, uint inIdx, uint32_t inUserData);
+
 ////////////////////////////////////////////////////////////////////////////////
 // TempAllocatorImpl
 
