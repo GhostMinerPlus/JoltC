@@ -1764,6 +1764,10 @@ JPC_API void JPC_CompoundShape_SetCompoundUserData(JPC_CompoundShape* self, uint
 	to_jph(self)->SetCompoundUserData(inIdx, inUserData);
 }
 
+JPC_API uint32_t JPC_CompoundShape_GetNumSubShapes(const JPC_CompoundShape* self) {
+	return to_jph(self)->GetNumSubShapes();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // ShapeSettings
 
