@@ -2128,7 +2128,7 @@ JPC_API void JPC_MutableCompoundShape_AdjustCenterOfMass(JPC_MutableCompoundShap
 	self_jph->AdjustCenterOfMass();
 }
 
-JPC_API JPC_MutableCompoundShape* JPC_MutableCompoundShape_Clone(JPC_MutableCompoundShape* self) {
+JPC_API JPC_MutableCompoundShape* JPC_MutableCompoundShape_Clone(const JPC_MutableCompoundShape* self) {
 	auto shape = to_jph(self)->Clone();
 
 	shape->AddRef();
