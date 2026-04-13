@@ -1783,7 +1783,7 @@ static bool HandleShapeResult(JPH::ShapeSettings::ShapeResult res, JPC_Shape** o
 	} else {
 		JPH::Ref<JPH::Shape> shape = res.Get();
 		shape->AddRef();
-		*outShape = to_jpc((JPH::Shape*)shape);
+		*outShape = (JPC_Shape*) shape.GetPtr();
 
 		return true;
 	}
