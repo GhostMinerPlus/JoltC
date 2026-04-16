@@ -391,21 +391,21 @@ JPC_API void JPC_BodyFilter_delete(JPC_BodyFilter* object);
 ////////////////////////////////////////////////////////////////////////////////
 // ShapeFilter
 
-typedef struct JPC_ShapeFilterFns {
-	bool (*ShouldCollide)(const void *self, const JPC_Shape *inShape2, JPC_SubShapeID inSubShapeIDOfShape2);
+typedef struct JPC_ShapeFilter JPC_ShapeFilter;
 
-	bool (*ShouldCollideTwoShapes)(const void *self,
+typedef struct JPC_ShapeFilterFns {
+	bool (*ShouldCollide)(const JPC_ShapeFilter *object, const void *opaque, const JPC_Shape *inShape2, JPC_SubShapeID inSubShapeIDOfShape2);
+
+	bool (*ShouldCollideTwoShapes)(const JPC_ShapeFilter *object, const void *opaque,
 		const JPC_Shape *inShape1, JPC_SubShapeID inSubShapeIDOfShape1,
 		const JPC_Shape *inShape2, JPC_SubShapeID inSubShapeIDOfShape2);
 } JPC_ShapeFilterFns;
 
-typedef struct JPC_ShapeFilter JPC_ShapeFilter;
-
-JPC_API JPC_ShapeFilter* JPC_ShapeFilter_new(
-	const void *self,
-	JPC_ShapeFilterFns fns);
+JPC_API JPC_ShapeFilter* JPC_ShapeFilter_new(const void *opaque, JPC_ShapeFilterFns fns);
 
 JPC_API void JPC_ShapeFilter_delete(JPC_ShapeFilter* object);
+
+JPC_API JPC_BodyID JPC_ShapeFilter_GetBodyID2(const JPC_ShapeFilter* object);
 
 ////////////////////////////////////////////////////////////////////////////////
 // SimShapeFilter

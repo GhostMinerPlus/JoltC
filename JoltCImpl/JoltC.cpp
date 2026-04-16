@@ -607,14 +607,14 @@ JPC_API JPC_BodyFilter* JPC_BodyFilter_new(
 
 class JPC_ShapeFilterBridge final : public JPH::ShapeFilter {
 public:
-	explicit JPC_ShapeFilterBridge(const void *self, JPC_ShapeFilterFns fns) : self(self), fns(fns) {}
+	explicit JPC_ShapeFilterBridge(const void *opaque, JPC_ShapeFilterFns fns) : opaque(opaque), fns(fns) {}
 
 	virtual bool ShouldCollide(const JPH::Shape *inShape2, const JPH::SubShapeID &inSubShapeIDOfShape2) const override {
 		if (fns.ShouldCollide == nullptr) {
 			return true;
 		}
 
-		return fns.ShouldCollide(self, to_jpc(inShape2), to_jpc(inSubShapeIDOfShape2));
+		return fns.ShouldCollide((const JPC_ShapeFilter*)this, opaque, to_jpc(inShape2), to_jpc(inSubShapeIDOfShape2));
 	}
 
 	virtual bool ShouldCollide(
@@ -625,24 +625,26 @@ public:
 			return true;
 		}
 
-		return fns.ShouldCollideTwoShapes(self,
+		return fns.ShouldCollideTwoShapes((const JPC_ShapeFilter*)this, opaque,
 			to_jpc(inShape1), to_jpc(inSubShapeIDOfShape1),
 			to_jpc(inShape2), to_jpc(inSubShapeIDOfShape2));
 	}
 
 private:
-	const void* self;
+	const void* opaque;
 	JPC_ShapeFilterFns fns;
 };
 
 OPAQUE_WRAPPER(JPC_ShapeFilter, JPC_ShapeFilterBridge)
 DESTRUCTOR(JPC_ShapeFilter)
 
-JPC_API JPC_ShapeFilter* JPC_ShapeFilter_new(
-	const void *self,
-	JPC_ShapeFilterFns fns)
+JPC_API JPC_ShapeFilter* JPC_ShapeFilter_new(const void *opaque, JPC_ShapeFilterFns fns)
 {
-	return to_jpc(new JPC_ShapeFilterBridge(self, fns));
+	return to_jpc(new JPC_ShapeFilterBridge(opaque, fns));
+}
+
+JPC_API JPC_BodyID JPC_ShapeFilter_GetBodyID2(const JPC_ShapeFilter *object) {
+	return to_jpc(to_jph(object)->mBodyID2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
