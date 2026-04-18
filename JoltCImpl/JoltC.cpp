@@ -24,6 +24,7 @@
 #include <Jolt/Physics/Collision/Shape/SphereShape.h>
 #include <Jolt/Physics/Collision/Shape/StaticCompoundShape.h>
 #include <Jolt/Physics/Collision/Shape/TriangleShape.h>
+#include <Jolt/Physics/Collision/Shape/TaperedCylinderShape.h>
 #include <Jolt/Physics/Collision/ShapeCast.h>
 #include <Jolt/Physics/Collision/SimShapeFilter.h>
 #include <Jolt/Physics/Constraints/ConstraintPart/SwingTwistConstraintPart.h>
@@ -1872,6 +1873,32 @@ JPC_API bool JPC_MeshShapeSettings_Create(const JPC_MeshShapeSettings* self, JPC
 	// MeshShapeSettings calls Sanitize in its default constructor, but we don't
 	// have constructors in C. It's probably fine to always Sanitize.
 	settings.Sanitize();
+
+	return HandleShapeResult(settings.Create(), outShape, outError);
+}
+////////////////////////////////////////////////////////////////////////////////
+// TaperedCylinderShapeSettings -> ConvexShapeSettings -> ShapeSettings
+
+JPC_API void JPC_TaperedCylinderShapeSettings_default(JPC_TaperedCylinderShapeSettings* object) {
+	JPH::TaperedCylinderShapeSettings settings;
+
+	object->HalfHeight = settings.mHalfHeight;
+	object->ConvexRadius = settings.mConvexRadius;
+	object->TopRadius = settings.mTopRadius;
+	object->BottomRadius = settings.mBottomRadius;
+	object->Density = settings.mDensity;
+	object->UserData = settings.mUserData;
+}
+
+JPC_API bool JPC_TaperedCylinderShapeSettings_Create(const JPC_TaperedCylinderShapeSettings* object, JPC_Shape** outShape, JPC_String** outError) {
+	JPH::TaperedCylinderShapeSettings settings;
+
+	settings.mHalfHeight = object->HalfHeight;
+	settings.mConvexRadius = object->ConvexRadius;
+	settings.mTopRadius = object->TopRadius;
+	settings.mBottomRadius = object->BottomRadius;
+	settings.mDensity = object->Density;
+	settings.mUserData = object->UserData;
 
 	return HandleShapeResult(settings.Create(), outShape, outError);
 }
