@@ -705,6 +705,8 @@ JPC_API void JPC_CollideShapeCollector_delete(JPC_CollideShapeCollector* object)
 
 JPC_API void JPC_CollideShapeCollector_UpdateEarlyOutFraction(JPC_CollideShapeCollector *self, float inFraction);
 
+JPC_API void JPC_CollideShapeCollector_ForceEarlyOut(JPC_CollideShapeCollector* self);
+
 ////////////////////////////////////////////////////////////////////////////////
 // DrawSettings
 

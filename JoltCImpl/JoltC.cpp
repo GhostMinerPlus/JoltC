@@ -940,6 +940,10 @@ JPC_API void JPC_CollideShapeCollector_UpdateEarlyOutFraction(JPC_CollideShapeCo
 	to_jph(self)->UpdateEarlyOutFraction(inFraction);
 }
 
+JPC_API void JPC_CollideShapeCollector_ForceEarlyOut(JPC_CollideShapeCollector* self) {
+	to_jph(self)->ForceEarlyOut();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // BodyManager::DrawSettings
 
