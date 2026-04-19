@@ -708,37 +708,6 @@ JPC_API void JPC_CollideShapeCollector_UpdateEarlyOutFraction(JPC_CollideShapeCo
 JPC_API void JPC_CollideShapeCollector_ForceEarlyOut(JPC_CollideShapeCollector* self);
 
 ////////////////////////////////////////////////////////////////////////////////
-// DrawSettings
-
-typedef struct JPC_BodyManager_DrawSettings {
-	bool mDrawGetSupportFunction;
-	bool mDrawSupportDirection;
-	bool mDrawGetSupportingFace;
-	bool mDrawShape;
-	bool mDrawShapeWireframe;
-	JPC_ShapeColor mDrawShapeColor;
-	bool mDrawBoundingBox;
-	bool mDrawCenterOfMassTransform;
-	bool mDrawWorldTransform;
-	bool mDrawVelocity;
-	bool mDrawMassAndInertia;
-	bool mDrawSleepStats;
-	bool mDrawSoftBodyVertices;
-	bool mDrawSoftBodyVertexVelocities;
-	bool mDrawSoftBodyEdgeConstraints;
-	bool mDrawSoftBodyBendConstraints;
-	bool mDrawSoftBodyVolumeConstraints;
-	bool mDrawSoftBodySkinConstraints;
-	bool mDrawSoftBodyLRAConstraints;
-	bool mDrawSoftBodyPredictedBounds;
-	JPC_SoftBodyConstraintColor DrawSoftBodyConstraintColor;
-} JPC_BodyManager_DrawSettings;
-
-ENSURE_SIZE_ALIGN(JPC_BodyManager_DrawSettings, JPH::BodyManager::DrawSettings)
-
-JPC_API void JPC_BodyManager_DrawSettings_default(JPC_BodyManager_DrawSettings* object);
-
-////////////////////////////////////////////////////////////////////////////////
 // DebugRendererSimple
 
 typedef struct JPC_DebugRendererSimpleFns {
@@ -914,8 +883,6 @@ typedef struct JPC_ConstraintSettings {
 	float DrawConstraintSize;
 	uint64_t UserData;
 } JPC_ConstraintSettings;
-
-JPC_API void JPC_ConstraintSettings_default(JPC_ConstraintSettings* settings);
 
 ////////////////////////////////////////////////////////////////////////////////
 // SpringSettings
@@ -1720,12 +1687,6 @@ JPC_API const JPC_BodyLockInterface* JPC_PhysicsSystem_GetBodyLockInterface(JPC_
 JPC_API const JPC_BodyLockInterface* JPC_PhysicsSystem_GetBodyLockInterfaceNoLock(JPC_PhysicsSystem* self);
 
 JPC_API const JPC_NarrowPhaseQuery* JPC_PhysicsSystem_GetNarrowPhaseQuery(const JPC_PhysicsSystem* self);
-
-JPC_API void JPC_PhysicsSystem_DrawBodies(
-	JPC_PhysicsSystem* self,
-	JPC_BodyManager_DrawSettings* inSettings,
-	JPC_DebugRendererSimple* inRenderer, // FIXME: un-specialize
-	const void* inBodyFilter); // FIXME: BodyDrawFilter
 
 JPC_API void JPC_PhysicsSystem_DrawConstraints(
 	JPC_PhysicsSystem* self,

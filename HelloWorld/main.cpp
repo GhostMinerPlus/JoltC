@@ -175,11 +175,6 @@ int main() {
 
 	JPC_BodyInterface_SetLinearVelocity(body_interface, sphere_id, JPC_Vec3{0.0, -5.0, 0.0});
 
-	JPC_DebugRendererSimple* debug_renderer = JPC_DebugRendererSimple_new(nullptr, Hello_DebugRenderer);
-	JPC_BodyManager_DrawSettings draw_settings;
-	JPC_BodyManager_DrawSettings_default(&draw_settings);
-	JPC_PhysicsSystem_DrawBodies(physics_system, &draw_settings, debug_renderer, nullptr);
-
 	JPC_PhysicsSystem_OptimizeBroadPhase(physics_system);
 
 	const float cDeltaTime = 1.0f / 60.0f;

@@ -143,8 +143,6 @@ DESTRUCTOR(JPC_IndexedTriangleList)
 OPAQUE_WRAPPER(JPC_String, JPH::String)
 DESTRUCTOR(JPC_String)
 
-LAYOUT_COMPATIBLE(JPC_BodyManager_DrawSettings, JPH::BodyManager::DrawSettings)
-
 // FIXME: It does't work!
 // LAYOUT_COMPATIBLE(JPC_RayCastSettings, JPH::RayCastSettings)
 LAYOUT_COMPATIBLE(JPC_ShapeCastSettings, JPH::ShapeCastSettings)
@@ -945,13 +943,6 @@ JPC_API void JPC_CollideShapeCollector_ForceEarlyOut(JPC_CollideShapeCollector* 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// BodyManager::DrawSettings
-
-JPC_API void JPC_BodyManager_DrawSettings_default(JPC_BodyManager_DrawSettings* object) {
-	*object = to_jpc(JPH::BodyManager::DrawSettings());
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // DebugRendererSimple
 
 class JPC_DebugRendererSimpleBridge final : public JPH::DebugRendererSimple {
@@ -1340,11 +1331,6 @@ JPC_IMPL void JPC_ConstraintSettings_to_jph(
 	outJph->mNumPositionStepsOverride = inJpc->NumPositionStepsOverride;
 	outJph->mDrawConstraintSize = inJpc->DrawConstraintSize;
 	outJph->mUserData = inJpc->UserData;
-}
-
-JPC_API void JPC_ConstraintSettings_default(JPC_ConstraintSettings* settings) {
-	JPH::ConstraintSettings defaultSettings{};
-	JPC_ConstraintSettings_to_jpc(settings, &defaultSettings);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3232,15 +3218,6 @@ JPC_API JPC_PhysicsUpdateError JPC_PhysicsSystem_Update(
 		to_jph(inJobSystem));
 
 	return to_integral(res);
-}
-
-JPC_API void JPC_PhysicsSystem_DrawBodies(
-	JPC_PhysicsSystem* self,
-	JPC_BodyManager_DrawSettings* inSettings,
-	JPC_DebugRendererSimple* inRenderer,
-	[[maybe_unused]] const void* inBodyFilter)
-{
-	to_jph(self)->DrawBodies(to_jph(*inSettings), to_jph(inRenderer), nullptr);
 }
 
 JPC_API void JPC_PhysicsSystem_DrawConstraints(
