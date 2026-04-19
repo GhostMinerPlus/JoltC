@@ -1753,6 +1753,25 @@ JPC_API void JPC_CollisionDispatch_sCollideShapeVsShape(
 	const JPC_ShapeFilter *inShapeFilter
 );
 
+
+typedef struct JPC_ShapeCast {
+	const JPC_Shape *Shape;
+	JPC_Vec3 Scale;
+	JPC_Mat44 CenterOfMassStart;
+	JPC_Vec3 Direction;
+	// const JPC_AABox ShapeWorldBounds;
+} JPC_ShapeCast;
+
+JPC_API void JPC_CollisionDispatch_sCastShapeVsShapeWorldSpace(
+	const JPC_ShapeCast inShapeCastWorld,
+	const JPC_ShapeCastSettings inShapeCastSettings,
+	const JPC_Shape *inShape,
+	JPC_Vec3 inScale,
+	JPC_Mat44 inCenterOfMassTransform2,
+	const JPC_ShapeFilter *inShapeFilter,
+	JPC_CastShapeCollector *ioCollector
+);
+
 #ifdef __cplusplus
 }
 #endif

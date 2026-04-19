@@ -3304,3 +3304,37 @@ JPC_API void JPC_CollisionDispatch_sCollideShapeVsShape(
 		*shapeFilter
 	);
 }
+
+JPC_API void JPC_CollisionDispatch_sCastShapeVsShapeWorldSpace(
+	const JPC_ShapeCast inShapeCastWorld,
+	const JPC_ShapeCastSettings inShapeCastSettings,
+	const JPC_Shape *inShape,
+	JPC_Vec3 inScale,
+	JPC_Mat44 inCenterOfMassTransform2,
+	const JPC_ShapeFilter *inShapeFilter,
+	JPC_CastShapeCollector *ioCollector
+) {
+	JPH::SubShapeIDCreator c1, c2;
+	const JPH::ShapeFilter defaultShapeFilter;
+
+	const JPH::ShapeFilter* shapeFilter = &defaultShapeFilter;
+	if (inShapeFilter != nullptr) {
+		shapeFilter = to_jph(inShapeFilter);
+	}
+
+	JPH::CollisionDispatch::sCastShapeVsShapeWorldSpace(
+		JPH::ShapeCast(
+			to_jph(inShapeCastWorld.Shape),
+			to_jph(inShapeCastWorld.Scale),
+			to_jph(inShapeCastWorld.CenterOfMassStart),
+			to_jph(inShapeCastWorld.Direction)
+		),
+		to_jph(inShapeCastSettings),
+		to_jph(inShape),
+		to_jph(inScale),
+		*shapeFilter,
+		to_jph(inCenterOfMassTransform2),
+		c1, c2,
+		*to_jph(ioCollector)
+	);
+}
