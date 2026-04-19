@@ -36,6 +36,7 @@
 #include <Jolt/Physics/PhysicsSettings.h>
 #include <Jolt/Physics/PhysicsSystem.h>
 #include <Jolt/RegisterTypes.h>
+#include <Jolt/Physics/Collision/CollisionDispatch.h>
 
 #include <Jolt/Renderer/DebugRendererSimple.h>
 
@@ -3268,4 +3269,38 @@ JPC_API void JPC_PhysicsSystem_SetGravity(JPC_PhysicsSystem* self, JPC_Vec3 grav
 JPC_API JPC_Vec3 JPC_PhysicsSystem_GetGravity(JPC_PhysicsSystem* self)
 {
 	return to_jpc(to_jph(self)->GetGravity());
+}
+
+JPC_API void JPC_CollisionDispatch_sCollideShapeVsShape(
+	const JPC_Shape *inShape1,
+	const JPC_Shape *inShape2,
+	JPC_Vec3 inScale1,
+	JPC_Vec3 inScale2,
+	JPC_Mat44 inCenterOfMassTransform1,
+	JPC_Mat44 inCenterOfMassTransform2,
+	const JPC_CollideShapeSettings inCollideShapeSettings,
+	JPC_CollideShapeCollector *ioCollector,
+	/*option args*/
+	const JPC_ShapeFilter *inShapeFilter
+) {
+	JPH::SubShapeIDCreator c1, c2;
+	const JPH::ShapeFilter defaultShapeFilter;
+
+	const JPH::ShapeFilter* shapeFilter = &defaultShapeFilter;
+	if (inShapeFilter != nullptr) {
+		shapeFilter = to_jph(inShapeFilter);
+	}
+
+	JPH::CollisionDispatch::sCollideShapeVsShape(
+		to_jph(inShape1),
+		to_jph(inShape2),
+		to_jph(inScale1),
+		to_jph(inScale2),
+		to_jph(inCenterOfMassTransform1),
+		to_jph(inCenterOfMassTransform2),
+		c1, c2,
+		to_jph(inCollideShapeSettings),
+		*to_jph(ioCollector),
+		*shapeFilter
+	);
 }

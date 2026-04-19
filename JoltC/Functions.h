@@ -1737,6 +1737,22 @@ JPC_API void JPC_PhysicsSystem_SetGravity(JPC_PhysicsSystem* self, JPC_Vec3 grav
 
 JPC_API JPC_Vec3 JPC_PhysicsSystem_GetGravity(JPC_PhysicsSystem* self);
 
+///////////////////////////////////////////////////////////////////////
+// CollisionDispatch
+
+JPC_API void JPC_CollisionDispatch_sCollideShapeVsShape(
+	const JPC_Shape *inShape1,
+	const JPC_Shape *inShape2,
+	JPC_Vec3 inScale1,
+	JPC_Vec3 inScale2,
+	JPC_Mat44 inCenterOfMassTransform1,
+	JPC_Mat44 inCenterOfMassTransform2,
+	const JPC_CollideShapeSettings inCollideShapeSettings,
+	JPC_CollideShapeCollector *ioCollector,
+	/*option args*/
+	const JPC_ShapeFilter *inShapeFilter
+);
+
 #ifdef __cplusplus
 }
 #endif
