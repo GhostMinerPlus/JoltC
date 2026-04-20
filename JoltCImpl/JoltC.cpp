@@ -1723,11 +1723,16 @@ JPC_API JPC_MassProperties JPC_Shape_GetMassProperties(const JPC_Shape* self) {
 ////////////////////////////////////////////////////////////////////////////////
 // CompoundShape
 
-JPC_API const JPC_Shape* JPC_CompoundShape_GetSubShape_Shape(
-	const JPC_CompoundShape* self,
-	uint inIdx)
-{
-	return to_jpc(to_jph(self)->GetSubShape(inIdx).mShape.GetPtr());
+JPC_API JPC_Quat JPC_CompoundShape_SubShape_GetRotation(const JPC_CompoundShape_SubShape* self) {
+	return to_jpc(to_jph(self)->GetRotation());
+}
+
+JPC_API JPC_Vec3 JPC_CompoundShape_SubShape_GetPositionCOM(const JPC_CompoundShape_SubShape* self) {
+	return to_jpc(to_jph(self)->GetPositionCOM());
+}
+
+JPC_API const JPC_Shape* JPC_CompoundShape_SubShape_GetShape(const JPC_CompoundShape_SubShape* self) {
+	return to_jpc(to_jph(self)->mShape.GetPtr());
 }
 
 JPC_API const JPC_CompoundShape_SubShape* JPC_CompoundShape_GetSubShape(

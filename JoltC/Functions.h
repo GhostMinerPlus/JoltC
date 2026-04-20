@@ -255,10 +255,11 @@ typedef struct JPC_CompoundShape JPC_CompoundShape;
 
 typedef struct JPC_CompoundShape_SubShape JPC_CompoundShape_SubShape;
 
-// FIXME: The real API should return a new type, JPC_CompoundShape_SubShape*
-JPC_API const JPC_Shape* JPC_CompoundShape_GetSubShape_Shape(
-	const JPC_CompoundShape* self,
-	uint inIdx);
+JPC_API JPC_Quat JPC_CompoundShape_SubShape_GetRotation(const JPC_CompoundShape_SubShape* self);
+
+JPC_API JPC_Vec3 JPC_CompoundShape_SubShape_GetPositionCOM(const JPC_CompoundShape_SubShape* self);
+
+JPC_API const JPC_Shape* JPC_CompoundShape_SubShape_GetShape(const JPC_CompoundShape_SubShape* self);
 
 JPC_API const JPC_CompoundShape_SubShape* JPC_CompoundShape_GetSubShape(
 	const JPC_CompoundShape* self,
