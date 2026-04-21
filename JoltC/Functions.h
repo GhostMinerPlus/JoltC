@@ -1130,6 +1130,26 @@ JPC_API void JPC_TaperedCylinderShapeSettings_default(JPC_TaperedCylinderShapeSe
 JPC_API bool JPC_TaperedCylinderShapeSettings_Create(const JPC_TaperedCylinderShapeSettings* self, JPC_Shape** outShape, JPC_String** outError);
 
 ////////////////////////////////////////////////////////////////////////////////
+// TaperedCapsuleShapeSettings -> ConvexShapeSettings -> ShapeSettings
+
+typedef struct JPC_TaperedCapsuleShapeSettings {
+	// ShapeSettings
+	uint64_t UserData;
+
+	// ConvexShapeSettings
+	// TODO: Material
+	float Density;
+
+	// TaperedCapsuleShapeSettings
+	float HalfHeightOfTaperedCylinder;
+	float TopRadius;
+	float BottomRadius;
+} JPC_TaperedCapsuleShapeSettings;
+
+JPC_API void JPC_TaperedCapsuleShapeSettings_default(JPC_TaperedCapsuleShapeSettings* object);
+JPC_API bool JPC_TaperedCapsuleShapeSettings_Create(const JPC_TaperedCapsuleShapeSettings* self, JPC_Shape** outShape, JPC_String** outError);
+
+////////////////////////////////////////////////////////////////////////////////
 // BoxShapeSettings -> ConvexShapeSettings -> ShapeSettings
 
 typedef struct JPC_BoxShapeSettings {

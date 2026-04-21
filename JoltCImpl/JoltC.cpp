@@ -25,6 +25,7 @@
 #include <Jolt/Physics/Collision/Shape/StaticCompoundShape.h>
 #include <Jolt/Physics/Collision/Shape/TriangleShape.h>
 #include <Jolt/Physics/Collision/Shape/TaperedCylinderShape.h>
+#include <Jolt/Physics/Collision/Shape/TaperedCapsuleShape.h>
 #include <Jolt/Physics/Collision/ShapeCast.h>
 #include <Jolt/Physics/Collision/SimShapeFilter.h>
 #include <Jolt/Physics/Constraints/ConstraintPart/SwingTwistConstraintPart.h>
@@ -1872,6 +1873,7 @@ JPC_API bool JPC_MeshShapeSettings_Create(const JPC_MeshShapeSettings* self, JPC
 
 	return HandleShapeResult(settings.Create(), outShape, outError);
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 // TaperedCylinderShapeSettings -> ConvexShapeSettings -> ShapeSettings
 
@@ -1891,6 +1893,31 @@ JPC_API bool JPC_TaperedCylinderShapeSettings_Create(const JPC_TaperedCylinderSh
 
 	settings.mHalfHeight = object->HalfHeight;
 	settings.mConvexRadius = object->ConvexRadius;
+	settings.mTopRadius = object->TopRadius;
+	settings.mBottomRadius = object->BottomRadius;
+	settings.mDensity = object->Density;
+	settings.mUserData = object->UserData;
+
+	return HandleShapeResult(settings.Create(), outShape, outError);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// TaperedCapsuleShapeSettings -> ConvexShapeSettings -> ShapeSettings
+
+JPC_API void JPC_TaperedCapsuleShapeSettings_default(JPC_TaperedCapsuleShapeSettings* object) {
+	JPH::TaperedCapsuleShapeSettings settings;
+
+	object->HalfHeightOfTaperedCylinder = settings.mHalfHeightOfTaperedCylinder;
+	object->TopRadius = settings.mTopRadius;
+	object->BottomRadius = settings.mBottomRadius;
+	object->Density = settings.mDensity;
+	object->UserData = settings.mUserData;
+}
+
+JPC_API bool JPC_TaperedCapsuleShapeSettings_Create(const JPC_TaperedCapsuleShapeSettings* object, JPC_Shape** outShape, JPC_String** outError) {
+	JPH::TaperedCapsuleShapeSettings settings;
+
+	settings.mHalfHeightOfTaperedCylinder = object->HalfHeightOfTaperedCylinder;
 	settings.mTopRadius = object->TopRadius;
 	settings.mBottomRadius = object->BottomRadius;
 	settings.mDensity = object->Density;
