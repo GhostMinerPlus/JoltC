@@ -1719,7 +1719,11 @@ JPC_API void JPC_PhysicsSystem_SetContactListener(JPC_PhysicsSystem* self, JPC_C
 
 JPC_API void JPC_PhysicsSystem_SetGravity(JPC_PhysicsSystem* self, JPC_Vec3 gravity);
 
-JPC_API JPC_Vec3 JPC_PhysicsSystem_GetGravity(JPC_PhysicsSystem* self);
+JPC_API JPC_Vec3 JPC_PhysicsSystem_GetGravity(const JPC_PhysicsSystem* self);
+
+JPC_API uint32_t JPC_PhysicsSystem_GetNumBodies(const JPC_PhysicsSystem* self);
+
+JPC_API void JPC_PhysicsSystem_GetBodies(const JPC_PhysicsSystem* self, JPC_BodyID* buffer);
 
 ///////////////////////////////////////////////////////////////////////
 // CollisionDispatch

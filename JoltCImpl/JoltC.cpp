@@ -3259,7 +3259,6 @@ JPC_API void JPC_PhysicsSystem_DrawConstraints(
 	to_jph(self)->DrawConstraints(to_jph(inRenderer));
 }
 
-
 JPC_API void JPC_PhysicsSystem_SetSimShapeFilter(
 	JPC_PhysicsSystem* self,
 	const JPC_SimShapeFilter* inShapeFilter)
@@ -3279,9 +3278,23 @@ JPC_API void JPC_PhysicsSystem_SetGravity(JPC_PhysicsSystem* self, JPC_Vec3 grav
 	to_jph(self)->SetGravity(to_jph(gravity));
 }
 
-JPC_API JPC_Vec3 JPC_PhysicsSystem_GetGravity(JPC_PhysicsSystem* self)
+JPC_API JPC_Vec3 JPC_PhysicsSystem_GetGravity(const JPC_PhysicsSystem* self)
 {
 	return to_jpc(to_jph(self)->GetGravity());
+}
+
+JPC_API uint32_t JPC_PhysicsSystem_GetNumBodies(const JPC_PhysicsSystem* self)
+{
+	return to_jph(self)->GetNumBodies();
+}
+
+JPC_API void JPC_PhysicsSystem_GetBodies(const JPC_PhysicsSystem* self, JPC_BodyID* buffer)
+{
+	JPH::Array<JPH::BodyID> arr;
+
+	to_jph(self)->GetBodies(arr);
+
+	memcpy(buffer, arr.data(), arr.size() * sizeof(JPH::BodyID));
 }
 
 JPC_API void JPC_CollisionDispatch_sCollideShapeVsShape(
