@@ -10,4 +10,3 @@
 
 #include "JoltC/Enums.h"
 #include "JoltC/Functions.h"
-#include "JoltC/Ext.h"
