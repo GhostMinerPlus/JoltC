@@ -136,7 +136,7 @@ public:
     static void sRegister()
     {
         JPH::ShapeFunctions &f = JPH::ShapeFunctions::sGet(JPH::EShapeSubType::User1);
-        f.mConstruct = []() -> Shape *
+        f.mConstruct = []() -> JPH::Shape *
         { return new JPC_MassShape; };
         f.mColor = JPH::Color::sYellow;
 
@@ -151,7 +151,7 @@ public:
 
 private:
     // Helper functions called by CollisionDispatch
-    static void sCollideMassVsShape(const Shape *inShape1, const Shape *inShape2, JPH::Vec3Arg inScale1, JPH::Vec3Arg inScale2, JPH::Mat44Arg inCenterOfMassTransform1, JPH::Mat44Arg inCenterOfMassTransform2, const JPH::SubShapeIDCreator &inSubShapeIDCreator1, const JPH::SubShapeIDCreator &inSubShapeIDCreator2, const JPH::CollideShapeSettings &inCollideShapeSettings, JPH::CollideShapeCollector &ioCollector, const JPH::ShapeFilter &inShapeFilter)
+    static void sCollideMassVsShape(const JPH::Shape *inShape1, const JPH::Shape *inShape2, JPH::Vec3Arg inScale1, JPH::Vec3Arg inScale2, JPH::Mat44Arg inCenterOfMassTransform1, JPH::Mat44Arg inCenterOfMassTransform2, const JPH::SubShapeIDCreator &inSubShapeIDCreator1, const JPH::SubShapeIDCreator &inSubShapeIDCreator2, const JPH::CollideShapeSettings &inCollideShapeSettings, JPH::CollideShapeCollector &ioCollector, const JPH::ShapeFilter &inShapeFilter)
     {
         // JPH_ASSERT(inShape1->GetSubType() == JPH::EShapeSubType::User1);
         const JPC_MassShape *shape1 = static_cast<const JPC_MassShape *>(inShape1);
@@ -174,7 +174,7 @@ private:
         JPH::CollisionDispatch::sCastShapeVsShapeLocalSpace(scaled_cast, inShapeCastSettings, inShape, inScale, inShapeFilter, inCenterOfMassTransform2, inSubShapeIDCreator1, inSubShapeIDCreator2, ioCollector);
     }
 
-    static void sCastShapeVsMass(const JPH::ShapeCast &inShapeCast, const JPH::ShapeCastSettings &inShapeCastSettings, const Shape *inShape, JPH::Vec3Arg inScale, const JPH::ShapeFilter &inShapeFilter, JPH::Mat44Arg inCenterOfMassTransform2, const JPH::SubShapeIDCreator &inSubShapeIDCreator1, const JPH::SubShapeIDCreator &inSubShapeIDCreator2, JPH::CastShapeCollector &ioCollector)
+    static void sCastShapeVsMass(const JPH::ShapeCast &inShapeCast, const JPH::ShapeCastSettings &inShapeCastSettings, const JPH::Shape *inShape, JPH::Vec3Arg inScale, const JPH::ShapeFilter &inShapeFilter, JPH::Mat44Arg inCenterOfMassTransform2, const JPH::SubShapeIDCreator &inSubShapeIDCreator1, const JPH::SubShapeIDCreator &inSubShapeIDCreator2, JPH::CastShapeCollector &ioCollector)
     {
         const JPC_MassShape *shape = static_cast<const JPC_MassShape *>(inShape);
 
