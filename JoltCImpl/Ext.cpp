@@ -59,6 +59,7 @@ public:
 
     explicit JPC_MassShape(JPH::MassProperties inMassProperties, const JPH::Shape *inShape) : JPH::DecoratedShape(JPH::EShapeSubType::User1, inShape), mMassProperties(inMassProperties)
     {
+        SetUserData(mInnerShape->GetUserData());
     }
 
     virtual JPH::AABox GetLocalBounds() const override
