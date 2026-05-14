@@ -11,6 +11,13 @@
 #include "JoltC/Enums.h"
 #include "JoltC/Functions.h"
 
-JPC_API JPC_Shape *JPC_MassShape_new(JPC_MassProperties inMassProperties, const JPC_Shape *inShape);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    JPC_API JPC_Shape *JPC_MassShape_new(JPC_MassProperties inMassProperties, const JPC_Shape *inShape);
 
-JPC_API void JPC_MassShape_sRegister();
+    JPC_API void JPC_MassShape_sRegister();
+#ifdef __cplusplus
+}
+#endif
