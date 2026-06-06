@@ -1139,6 +1139,14 @@ JPC_API bool JPC_SixDOFConstraint_IsFreeAxis(const JPC_SixDOFConstraint* self, J
 	return to_jph(self)->IsFreeAxis((JPH::SixDOFConstraint::EAxis)inAxis);
 }
 
+JPC_API JPC_MotorState JPC_SixDOFConstraint_GetMotorState(const JPC_SixDOFConstraint* self, JPC_SixDOFConstraint_Axis inAxis) {
+	return to_jpc(to_jph(self)->GetMotorState((JPH::SixDOFConstraint::EAxis)inAxis));
+}
+
+JPC_API void JPC_SixDOFConstraint_SetMotorState(JPC_SixDOFConstraint* self, JPC_SixDOFConstraint_Axis inAxis, JPC_MotorState inState) {
+	return to_jph(self)->SetMotorState((JPH::SixDOFConstraint::EAxis)inAxis, to_jph(inState));
+}
+
 // const SpringSettings & GetLimitsSpringSettings(JPC_SixDOFConstraint_Axis inAxis) const { JPH_ASSERT(inAxis < JPC_SixDOFConstraint_Axis::NumTranslation); return mLimitsSpringSettings[inAxis]; }
 // void SetLimitsSpringSettings(JPC_SixDOFConstraint_Axis inAxis, const SpringSettings& inLimitsSpringSettings) { JPH_ASSERT(inAxis < JPC_SixDOFConstraint_Axis::NumTranslation); mLimitsSpringSettings[inAxis] = inLimitsSpringSettings; CacheHasSpringLimits(); }
 
@@ -1463,8 +1471,8 @@ JPC_IMPL void JPC_SixDOFConstraintSettings_to_jpc(
 	std::copy(inJph->mMaxFriction, inJph->mMaxFriction + 6, outJpc->MaxFriction);
 	std::copy(inJph->mLimitMin, inJph->mLimitMin + 6, outJpc->LimitMin);
 	std::copy(inJph->mLimitMax, inJph->mLimitMax + 6, outJpc->LimitMax);
-
-	// TODO: LimitsSpringSettings
+	JPC_SpringSettings_to_jpc(&outJpc->LimitsSpringSettings, inJph->mLimitsSpringSettings);
+	JPC_MotorSettings_to_jpc(&outJpc->MotorSettings, inJph->mMotorSettings);
 }
 
 JPC_IMPL void JPC_SixDOFConstraintSettings_to_jph(
@@ -1483,8 +1491,8 @@ JPC_IMPL void JPC_SixDOFConstraintSettings_to_jph(
 	std::copy(inJpc->MaxFriction, inJpc->MaxFriction + 6, outJph->mMaxFriction);
 	std::copy(inJpc->LimitMin, inJpc->LimitMin + 6, outJph->mLimitMin);
 	std::copy(inJpc->LimitMax, inJpc->LimitMax + 6, outJph->mLimitMax);
-
-	// TODO: LimitsSpringSettings
+	JPC_SpringSettings_to_jph(&inJpc->LimitsSpringSettings, outJph->mLimitsSpringSettings);
+	JPC_MotorSettings_to_jph(&inJpc->MotorSettings, outJph->mMotorSettings);
 }
 
 JPC_API void JPC_SixDOFConstraintSettings_default(JPC_SixDOFConstraintSettings* settings) {

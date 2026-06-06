@@ -806,6 +806,10 @@ JPC_API float JPC_SixDOFConstraint_GetLimitsMax(const JPC_SixDOFConstraint* self
 
 JPC_API bool JPC_SixDOFConstraint_IsFreeAxis(const JPC_SixDOFConstraint* self, JPC_SixDOFConstraint_Axis inAxis);
 
+JPC_API JPC_MotorState JPC_SixDOFConstraint_GetMotorState(const JPC_SixDOFConstraint* self, JPC_SixDOFConstraint_Axis inAxis);
+
+JPC_API void JPC_SixDOFConstraint_SetMotorState(JPC_SixDOFConstraint* self, JPC_SixDOFConstraint_Axis inAxis, JPC_MotorState inState);
+
 // const SpringSettings & GetLimitsSpringSettings(JPC_SixDOFConstraint_Axis inAxis) const { JPH_ASSERT(inAxis < JPC_SixDOFConstraint_Axis::NumTranslation); return mLimitsSpringSettings[inAxis]; }
 // void SetLimitsSpringSettings(JPC_SixDOFConstraint_Axis inAxis, const SpringSettings& inLimitsSpringSettings) { JPH_ASSERT(inAxis < JPC_SixDOFConstraint_Axis::NumTranslation); mLimitsSpringSettings[inAxis] = inLimitsSpringSettings; CacheHasSpringLimits(); }
 
@@ -960,7 +964,8 @@ typedef struct JPC_SixDOFConstraintSettings {
 	float LimitMin[6];
 	float LimitMax[6];
 
-	// TODO: LimitsSpringSettings
+	JPC_SpringSettings LimitsSpringSettings;
+	JPC_MotorSettings MotorSettings;
 } JPC_SixDOFConstraintSettings;
 
 JPC_API void JPC_SixDOFConstraintSettings_default(JPC_SixDOFConstraintSettings* settings);
