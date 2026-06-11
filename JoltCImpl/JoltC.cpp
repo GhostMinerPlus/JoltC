@@ -351,6 +351,7 @@ JPC_IMPL JPH::ShapeCastSettings JPC_ShapeCastSettings_to_jph(JPC_ShapeCastSettin
 	out.mActiveEdgeMovementDirection = to_jph(in.ActiveEdgeMovementDirection);
 
 	// JPH::ShapeCastSettings
+	out.mExtraConvexRadius = in.ExtraConvexRadius;
 	out.mBackFaceModeTriangles = static_cast<JPH::EBackFaceMode>(in.BackFaceModeTriangles);
 	out.mBackFaceModeConvex = static_cast<JPH::EBackFaceMode>(in.BackFaceModeConvex);
 	out.mUseShrunkenShapeAndConvexRadius = in.UseShrunkenShapeAndConvexRadius;

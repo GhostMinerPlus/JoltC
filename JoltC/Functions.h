@@ -578,6 +578,7 @@ typedef uint32_t JPC_ObjectLayer;
 		JPC_Vec3 ActiveEdgeMovementDirection;
 
 		// JPH::ShapeCastSettings
+		float ExtraConvexRadius;
 		JPC_BackFaceMode BackFaceModeTriangles;
 		JPC_BackFaceMode BackFaceModeConvex;
 		bool UseShrunkenShapeAndConvexRadius;
@@ -590,6 +591,8 @@ typedef uint32_t JPC_ObjectLayer;
 	ENSURE_NORMAL_FIELD(ShapeCastSettings, CollisionTolerance)
 	ENSURE_NORMAL_FIELD(ShapeCastSettings, PenetrationTolerance)
 	ENSURE_NORMAL_FIELD(ShapeCastSettings, ActiveEdgeMovementDirection)
+	//
+	ENSURE_NORMAL_FIELD(ShapeCastSettings, ExtraConvexRadius)
 	ENSURE_NORMAL_FIELD(ShapeCastSettings, BackFaceModeTriangles)
 	ENSURE_NORMAL_FIELD(ShapeCastSettings, BackFaceModeConvex)
 	ENSURE_NORMAL_FIELD(ShapeCastSettings, UseShrunkenShapeAndConvexRadius)
@@ -656,13 +659,6 @@ typedef uint32_t JPC_ObjectLayer;
 
 	static const uint JPC_ContactPointsCapacity = 64;
 
-	typedef struct JPC_Impulse
-	{
-		float ContactImpulse;	///< Estimated contact impulses (kg m / s)
-		float FrictionImpulse1; ///< Estimated friction impulses in the direction of tangent 1 (kg m / s)
-		float FrictionImpulse2; ///< Estimated friction impulses in the direction of tangent 2 (kg m / s)
-	} JPC_Impulse;
-
 	typedef struct JPC_CollisionEstimationResult
 	{
 		JPC_Vec3 LinearVelocity1;  ///< The estimated linear velocity of body 1 after collision
@@ -670,11 +666,15 @@ typedef uint32_t JPC_ObjectLayer;
 		JPC_Vec3 LinearVelocity2;  ///< The estimated linear velocity of body 2 after collision
 		JPC_Vec3 AngularVelocity2; ///< The estimated angular velocity of body 2 after collision
 
+		JPC_Vec3 FrictionPoint;
 		JPC_Vec3 Tangent1; ///< Normalized tangent of contact normal
 		JPC_Vec3 Tangent2; ///< Second normalized tangent of contact normal (forms a basis with mTangent1 and mWorldSpaceNormal)
 
-		uint NumImpulses;
-		JPC_Impulse Impulses[JPC_ContactPointsCapacity];
+		float FrictionImpulse1;
+		float mFrictionImpulse2;
+		float mAngularFrictionImpulse;
+
+		float ContactImpulse[JPC_ContactPointsCapacity];
 	} JPC_CollisionEstimationResult;
 
 	ENSURE_SIZE_ALIGN(JPC_CollisionEstimationResult, JPH::CollisionEstimationResult)
