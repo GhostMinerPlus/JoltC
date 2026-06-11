@@ -1640,7 +1640,10 @@ JPC_IMPL void JPC_SixDOFConstraintSettings_to_jpc(
 	std::copy(inJph->mLimitMin, inJph->mLimitMin + 6, outJpc->LimitMin);
 	std::copy(inJph->mLimitMax, inJph->mLimitMax + 6, outJpc->LimitMax);
 	JPC_SpringSettings_to_jpc(&outJpc->LimitsSpringSettings, inJph->mLimitsSpringSettings);
-	JPC_MotorSettings_to_jpc(&outJpc->MotorSettings, inJph->mMotorSettings);
+	for (int i = 0; i < 6; i += 1)
+	{
+		JPC_MotorSettings_to_jpc(&outJpc->MotorSettings[i], &inJph->mMotorSettings[i]);
+	}
 }
 
 JPC_IMPL void JPC_SixDOFConstraintSettings_to_jph(
@@ -1660,7 +1663,10 @@ JPC_IMPL void JPC_SixDOFConstraintSettings_to_jph(
 	std::copy(inJpc->LimitMin, inJpc->LimitMin + 6, outJph->mLimitMin);
 	std::copy(inJpc->LimitMax, inJpc->LimitMax + 6, outJph->mLimitMax);
 	JPC_SpringSettings_to_jph(&inJpc->LimitsSpringSettings, outJph->mLimitsSpringSettings);
-	JPC_MotorSettings_to_jph(&inJpc->MotorSettings, outJph->mMotorSettings);
+	for (int i = 0; i < 6; i += 1)
+	{
+		JPC_MotorSettings_to_jph(&inJpc->MotorSettings[i], &outJph->mMotorSettings[i]);
+	}
 }
 
 JPC_API void JPC_SixDOFConstraintSettings_default(JPC_SixDOFConstraintSettings *settings)

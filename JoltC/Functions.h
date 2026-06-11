@@ -1012,7 +1012,7 @@ typedef uint32_t JPC_ObjectLayer;
 		float LimitMax[6];
 
 		JPC_SpringSettings LimitsSpringSettings;
-		JPC_MotorSettings MotorSettings;
+		JPC_MotorSettings MotorSettings[6];
 	} JPC_SixDOFConstraintSettings;
 
 	JPC_API void JPC_SixDOFConstraintSettings_default(JPC_SixDOFConstraintSettings *settings);
